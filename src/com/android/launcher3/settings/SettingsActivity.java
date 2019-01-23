@@ -28,6 +28,7 @@ import static com.android.launcher3.OverlayCallbackImpl.KEY_ENABLE_MINUS_ONE;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -50,6 +51,7 @@ import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.config.FeatureFlags;
+import com.android.launcher3.trust.TrustAppsActivity;
 import com.android.launcher3.uioverrides.plugins.PluginManagerWrapper;
 import com.android.launcher3.util.SecureSettingsObserver;
 
@@ -71,6 +73,9 @@ public class SettingsActivity extends FragmentActivity
     public static final String EXTRA_SHOW_FRAGMENT_ARGS = ":settings:show_fragment_args";
     private static final int DELAY_HIGHLIGHT_DURATION_MILLIS = 600;
     public static final String SAVE_HIGHLIGHTED_KEY = "android:preference_highlighted";
+
+    public static final String KEY_MINUS_ONE = "pref_enable_minus_one";
+    public static final String KEY_TRUST_APPS = "pref_trust_apps";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,7 +233,13 @@ public class SettingsActivity extends FragmentActivity
                     // Show if plugins are enabled or flag UI is enabled.
                     return FeatureFlags.showFlagTogglerUi(getContext()) ||
                             PluginManagerWrapper.hasPlugins(getContext());
-
+                case KEY_TRUST_APPS:
+                    preference.setOnPreferenceClickListener(p -> {
+                        Intent intent = new Intent(getActivity(), TrustAppsActivity.class);
+                        startActivity(intent);
+                        return true;
+                    });
+                    return true;
                 case KEY_ENABLE_MINUS_ONE:
                     mShowGoogleAppPref = preference;
                     updateIsGoogleAppEnabled();
