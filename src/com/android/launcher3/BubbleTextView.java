@@ -16,8 +16,6 @@
 
 package com.android.launcher3;
 
-import static com.android.launcher3.FastBitmapDrawable.newIcon;
-import static com.android.launcher3.graphics.PreloadIconDrawable.newPendingIcon;
 import static com.android.launcher3.icons.GraphicsUtils.setColorAlphaBound;
 
 import android.animation.Animator;
@@ -48,6 +46,7 @@ import com.android.launcher3.accessibility.LauncherAccessibilityDelegate;
 import com.android.launcher3.dot.DotInfo;
 import com.android.launcher3.dragndrop.DraggableView;
 import com.android.launcher3.folder.FolderIcon;
+import com.android.launcher3.graphics.DrawableFactory;
 import com.android.launcher3.graphics.IconPalette;
 import com.android.launcher3.graphics.IconShape;
 import com.android.launcher3.graphics.PreloadIconDrawable;
@@ -287,7 +286,8 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver, 
     }
 
     private void applyIconAndLabel(ItemInfoWithIcon info) {
-        FastBitmapDrawable iconDrawable = newIcon(getContext(), info);
+        FastBitmapDrawable iconDrawable = DrawableFactory.INSTANCE.get(getContext())
+                .newIcon(getContext(), info);
         mDotParams.color = IconPalette.getMutedColor(info.bitmap.color, 0.54f);
 
         setIcon(iconDrawable);
@@ -552,7 +552,8 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver, 
                     preloadDrawable = (PreloadIconDrawable) mIcon;
                     preloadDrawable.setLevel(progressLevel);
                 } else {
-                    preloadDrawable = newPendingIcon(getContext(), info);
+                    preloadDrawable = DrawableFactory.INSTANCE.get(getContext())
+                            .newPendingIcon(getContext(), info);
                     preloadDrawable.setLevel(progressLevel);
                     setIcon(preloadDrawable);
                 }
