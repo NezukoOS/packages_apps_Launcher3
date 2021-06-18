@@ -156,9 +156,9 @@ public class OptionsPopupView extends ArrowPopup
 
         ArrayList<OptionItem> options = new ArrayList<>();
         int resString = Utilities.existsStyleWallpapers(launcher) ?
-                R.string.wallpaper_button_text : R.string.wallpaper_button_text;
+                R.string.styles_wallpaper_button_text : R.string.wallpaper_button_text;
         int resDrawable = Utilities.existsStyleWallpapers(launcher) ?
-                R.drawable.ic_wallpaper : R.drawable.ic_wallpaper;
+                R.drawable.ic_palette : R.drawable.ic_wallpaper;
         options.add(new OptionItem(resString, resDrawable,
                 IGNORE,
                 OptionsPopupView::startWallpaperPicker));
@@ -170,9 +170,6 @@ public class OptionsPopupView extends ArrowPopup
         options.add(new OptionItem(R.string.settings_button_text, R.drawable.ic_setting,
                 LAUNCHER_SETTINGS_BUTTON_TAP_OR_LONGPRESS,
                 OptionsPopupView::startSettings));
-        options.add(new OptionItem(R.string.theme_title, R.drawable.ic_palette,
-                LAUNCHER_SETTINGS_BUTTON_TAP_OR_LONGPRESS,
-                OptionsPopupView::startThemePicker));
 
         show(launcher, target, options);
     }
@@ -227,14 +224,6 @@ public class OptionsPopupView extends ArrowPopup
         if (!TextUtils.isEmpty(pickerPackage)) {
             intent.setPackage(pickerPackage);
         }
-        return launcher.startActivitySafely(v, intent, dummyInfo(intent), null);
-    }
-
-    public static boolean startThemePicker(View v) {
-        Launcher launcher = Launcher.getLauncher(v.getContext());
-        
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.android.wallpaper", "com.android.wallpaper.StylesMainActivity"));
         return launcher.startActivitySafely(v, intent, dummyInfo(intent), null);
     }
 
